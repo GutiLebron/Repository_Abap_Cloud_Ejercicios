@@ -1,11 +1,11 @@
 @AbapCatalog.viewEnhancementCategory: [#NONE]
 @AccessControl.authorizationCheck: #NOT_REQUIRED
-@EndUserText.label: 'Vista para VH'
+@EndUserText.label: 'Value Help Status'
 @Metadata.ignorePropagatedAnnotations: true
-@ObjectModel.resultSet.sizeCategory: #XS  //VALUE HELP TIPO SELECTION
-define view entity ZVH_DEMARCACION_10_AG 
+@ObjectModel.resultSet.sizeCategory: #XS //VALUE HELP TIPO SELECTION
+define view entity ZVH_STATUS_10_AG 
 as select from DDCDS_CUSTOMER_DOMAIN_VALUE_T(
-                            p_domain_name: 'ZDD_POSICION_10_AG') as Text
+                            p_domain_name: 'ZDD_STATUS_10_AG') as Text
                             
 {
 
