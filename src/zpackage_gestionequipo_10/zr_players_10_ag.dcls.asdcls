@@ -1,0 +1,6 @@
+@EndUserText.label: 'ZR_PLAYERS_10_AG'
+@MappingRole: true
+define role ZR_PLAYERS_10_AG {
+  grant select on ZR_PLAYERS_10_AG
+  where TRUE;
+}
