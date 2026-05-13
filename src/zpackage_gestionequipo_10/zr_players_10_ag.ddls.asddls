@@ -11,7 +11,7 @@ define root view entity ZR_PLAYERS_10_AG
   demarcacion as Demarcacion,
   salario as Salario,
   inicio_contrato as InicioContrato,
-  fin_contrato as FinContrato,
+  fin_contrato as FinContrato,  
   estado as Estado,
   ingresos_venta as IngresosVenta,
   gasto_compra as GastoCompra,
