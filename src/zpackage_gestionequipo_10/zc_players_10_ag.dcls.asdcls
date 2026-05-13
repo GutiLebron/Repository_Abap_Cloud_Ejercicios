@@ -1,0 +1,6 @@
+@EndUserText.label: 'ZC_PLAYERS_10_AG'
+@MappingRole: true
+define role ZC_PLAYERS_10_AG {
+  grant select on ZC_PLAYERS_10_AG
+  where INHERITING CONDITIONS FROM ENTITY ZR_PLAYERS_10_AG REPLACING { ROOT WITH _BaseEntity };
+}
