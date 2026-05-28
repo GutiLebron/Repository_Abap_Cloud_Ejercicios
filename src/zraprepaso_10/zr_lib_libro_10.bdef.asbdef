@@ -1,0 +1,59 @@
+managed implementation in class ZBP_R_LIB_LIBRO_10 unique;
+strict ( 2 );
+with draft;
+extensible;
+define behavior for ZR_LIB_LIBRO_10 alias ZrLibLibro10
+persistent table ZLIB_LIBRO_10
+extensible
+draft table ZLIB_LIBRO_10_D
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master( global )
+{
+  field ( mandatory : create )
+   LibroID;
+
+  field ( readonly )
+   CreatedBy,
+   CreatedAt,
+   LastChangedBy,
+   LastChangedAt,
+   LocalLastChangedAt;
+
+  field ( readonly : update )
+   LibroID;
+
+  create;
+  update;
+  delete;
+
+    //validación que solo funcionará al crear
+    validation check_num_pag on save { create; update; }
+    //estamos haciendo que funcione al crear y updatear
+    determination setPaginasbyEstado on modify { field NumPaginas; }
+
+
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for ZLIB_LIBRO_10 corresponding extensible
+  {
+    LibroID = LIBRO_ID;
+    Titulo = TITULO;
+    Autor = AUTOR;
+    Genero = GENERO;
+    NumPaginas = NUM_PAGINAS;
+    Disponible = DISPONIBLE;
+    Estado = ESTADO;
+    CreatedBy = CREATED_BY;
+    CreatedAt = CREATED_AT;
+    LastChangedBy = LAST_CHANGED_BY;
+    LastChangedAt = LAST_CHANGED_AT;
+    LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+  }
+
+}
