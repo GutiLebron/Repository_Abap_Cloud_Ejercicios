@@ -4,6 +4,8 @@ CLASS zcl_caja_registradora_10 DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
+"creo un tipo propio para poder hacer el RETURNING"
+TYPES ty_descripciones TYPE STANDARD TABLE OF string WITH EMPTY KEY.
 
 METHODS:
 agregar_producto
@@ -15,8 +17,8 @@ calcular_total
     VALUE(rv_total) TYPE decfloat16,
 
 listar_productos
-    RETURNING
-        VALUE(rv_descripciones) type string.
+      RETURNING
+        VALUE(rt_descripciones) TYPE ty_descripciones.
 
 
   PROTECTED SECTION.
@@ -36,10 +38,8 @@ CLASS zcl_caja_registradora_10 IMPLEMENTATION.
 
   METHOD calcular_total.
 
-    DATA lcl_producto type ref to zif_vendible_10.
-
     LOOP AT lt_productos_helados INTO DATA(producto).
-      rv_total = rv_total + lcl_producto->calcular_precio( ).
+      rv_total = rv_total + producto->calcular_precio( ).
     ENDLOOP.
 
   ENDMETHOD.
@@ -49,9 +49,8 @@ CLASS zcl_caja_registradora_10 IMPLEMENTATION.
 
     LOOP AT lt_productos_helados INTO DATA(producto).
 
-      DATA lcl_producto type ref to zif_vendible_10.
-      rv_descripciones = lcl_producto->describir( ).
-      APPEND rv_descripciones TO me->lt_descripciones.
+      data(lv_descripcion) = producto->describir( ).
+      APPEND lv_descripcion TO rt_descripciones.
 
     ENDLOOP.
 
