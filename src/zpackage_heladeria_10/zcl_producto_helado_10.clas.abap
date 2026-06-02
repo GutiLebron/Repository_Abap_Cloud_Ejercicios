@@ -10,17 +10,23 @@ CLASS zcl_producto_helado_10 DEFINITION
 
       constructor
         IMPORTING
-            i_nombre TYPE string
-            i_precio_base TYPE decfloat16,
+          i_nombre      TYPE string
+          i_precio_base TYPE decfloat16
+        RAISING
+          zcx_producto_invalido_10_ag,
 
       get_info
         EXPORTING
-            o_nombre TYPE string
-            o_fecha TYPE d,
+          o_nombre TYPE string
+          o_fecha  TYPE d,
+
+      get_date
+        RETURNING
+          VALUE(rt_fecha) TYPE d,
 
       get_tipo ABSTRACT
         RETURNING
-            VALUE(rt_tipo_producto) TYPE string.
+          VALUE(rt_tipo_producto) TYPE string.
 
   PROTECTED SECTION.
     DATA:
@@ -30,44 +36,45 @@ CLASS zcl_producto_helado_10 DEFINITION
     DATA:
         fecha_creacion TYPE d.
 
-    METHODS:
-        get_date
-            RETURNING
-                VALUE(rt_fecha) TYPE d.
 ENDCLASS.
 
 
 
 CLASS zcl_producto_helado_10 IMPLEMENTATION.
 
-"CONSTRUCTOR MARCA LA FECHA SEGÚN LA INSTANCIACIÓN"
-METHOD constructor.
-me->fecha_creacion = cl_abap_context_info=>get_system_date( ).
-me->nombre_producto = i_nombre.
-me->precio_base = i_precio_base.
-ENDMETHOD.
+  "CONSTRUCTOR MARCA LA FECHA SEGÚN LA INSTANCIACIÓN"
+  METHOD constructor.
+    IF i_precio_base <= 0.
+      RAISE EXCEPTION TYPE zcx_producto_invalido_10_ag
+        EXPORTING
+          i_textid = zcx_producto_invalido_10_ag=>precio_invalido.
+    ENDIF.
+    me->fecha_creacion = cl_abap_context_info=>get_system_date( ).
+    me->nombre_producto = i_nombre.
+    me->precio_base = i_precio_base.
+  ENDMETHOD.
 
-"MÉTODO AUXILIAR PARA OBTENER LA FECHA"
-METHOD get_date.
+  "MÉTODO AUXILIAR PARA OBTENER LA FECHA"
+  METHOD get_date.
     rt_fecha = me->fecha_creacion.
-ENDMETHOD.
+  ENDMETHOD.
 
 
-METHOD get_info.
+  METHOD get_info.
     o_nombre = me->nombre_producto.
     o_fecha = get_date(  ).
-ENDMETHOD.
+  ENDMETHOD.
 
 
-"Método de la interfaz"
-METHOD zif_vendible_10~calcular_precio.
+  "Método de la interfaz"
+  METHOD zif_vendible_10~calcular_precio.
 
-ENDMETHOD.
+  ENDMETHOD.
 
 
-"Método de la interfaz"
-METHOD zif_vendible_10~describir.
+  "Método de la interfaz"
+  METHOD zif_vendible_10~describir.
 
-ENDMETHOD.
+  ENDMETHOD.
 
 ENDCLASS.
