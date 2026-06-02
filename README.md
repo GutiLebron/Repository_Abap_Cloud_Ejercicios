@@ -1,5 +1,5 @@
 # Repository_Abap_Cloud_Ejercicios
-Ejercicios de Abap Cloud orientado a objetos, elaboración de informes enlazando tablas tanto con SQL como con Loops y realización de CDS
+Ejercicios de Abap Cloud orientado a objetos, elaboración de informes enlazando tablas tanto con SQL como con Loops y realización de CDS. A continuación dejo un índice de los proyectos más destacados. Dentro del repositorio hay más clases y ejercicios que me han ayudado a comprender y aprender el funcionamiento de <strong>ABAP Cloud</strong>
 
 <i>Indice de Proyectos</i>
 <ul>
