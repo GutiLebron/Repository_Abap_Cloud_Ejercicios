@@ -5,15 +5,17 @@ CLASS zcl_granizado_10 DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
-    "Atributo estático"
-    CLASS-DATA gv_total_matches TYPE i.
+
+
     METHODS:
       constructor
         IMPORTING
           i_nombre      TYPE string
           i_precio_base TYPE decfloat16
           i_tipo_fruta  TYPE string
-          i_tamanyo     TYPE zde_tamano_granizado_10,
+          i_tamanyo     TYPE zde_tamano_granizado_10
+          RAISING
+            zcx_producto_invalido_10_ag,
 
       get_tipo REDEFINITION,
 
@@ -33,12 +35,16 @@ ENDCLASS.
 CLASS zcl_granizado_10 IMPLEMENTATION.
 
   METHOD constructor.
+
     super->constructor(
         i_nombre = i_nombre
         i_precio_base   = i_precio_base ).
     me->tipo_fruta = i_tipo_fruta.
     me->tamanyo = i_tamanyo.
+
+
   ENDMETHOD.
+
 
   METHOD get_tipo.
     rt_tipo_producto = cl_abap_classdescr=>get_class_name( me ).

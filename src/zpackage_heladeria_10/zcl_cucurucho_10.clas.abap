@@ -5,6 +5,9 @@ CLASS zcl_cucurucho_10 DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
+
+    types ty_errores type standard table of string with EMPTY key.
+
     METHODS:
       constructor
         IMPORTING
@@ -38,20 +41,33 @@ ENDCLASS.
 
 CLASS zcl_cucurucho_10 IMPLEMENTATION.
 
-  "Metodo constructor heredado"
-  METHOD constructor.
-    IF i_numero_bolas <= 0.
-      RAISE EXCEPTION TYPE zcx_producto_invalido_10_ag
-        EXPORTING
-          i_textid = zcx_producto_invalido_10_ag=>bolas_invalidas.
-    ENDIF.
-    super->constructor(
-        i_nombre = i_nombre
-        i_precio_base = i_precio_base
-        ).
-    me->numero_bolas        = i_numero_bolas.
-    me->barquillo_chocolate = i_barquillo_chocolate.
-  ENDMETHOD.
+METHOD constructor.
+
+  DATA lt_errores TYPE ty_errores.
+
+  IF i_precio_base <= 0.
+    APPEND 'El precio base no puede ser negativo o cero' TO lt_errores.
+  ENDIF.
+
+  IF i_numero_bolas <= 0.
+    APPEND 'El número de BOLAS no puede ser negativo o cero' TO lt_errores.
+  ENDIF.
+
+  IF lt_errores IS NOT INITIAL.
+    RAISE EXCEPTION TYPE zcx_producto_invalido_10_ag
+      EXPORTING
+        i_mt_errores = lt_errores.
+  ENDIF.
+
+  super->constructor(
+    i_nombre      = i_nombre
+    i_precio_base = i_precio_base
+  ).
+
+  me->numero_bolas        = i_numero_bolas.
+  me->barquillo_chocolate = i_barquillo_chocolate.
+
+ENDMETHOD.
 
   "Método Abstracto de clase Abstracta"
   METHOD get_tipo.
